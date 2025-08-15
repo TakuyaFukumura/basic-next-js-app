@@ -1,5 +1,7 @@
 import type {Metadata} from "next";
 import "./globals.css";
+import {DarkModeProvider} from "./components/DarkModeProvider";
+import Header from "./components/Header";
 
 export const metadata: Metadata = {
     title: "基本Next.jsアプリ",
@@ -14,7 +16,10 @@ export default function RootLayout({
     return (
         <html lang="ja">
         <body className="antialiased">
-        {children}
+        <DarkModeProvider>
+            <Header />
+            {children}
+        </DarkModeProvider>
         </body>
         </html>
     );
