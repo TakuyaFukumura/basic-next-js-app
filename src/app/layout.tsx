@@ -1,21 +1,21 @@
-import type { Metadata } from "next";
+import type {Metadata} from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "基本Next.jsアプリ",
-  description: "SQLiteからメッセージを取得するシンプルなNext.jsアプリケーション",
+    title: "基本Next.jsアプリ",
+    description: "SQLiteからメッセージを取得するシンプルなNext.jsアプリケーション",
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
+                                       children,
+                                   }: Readonly<{
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="ja">
-      <body className="antialiased">
+    return (
+        <html lang="ja">
+        <body className="antialiased">
         {children}
-      </body>
-    </html>
-  );
+        </body>
+        </html>
+    );
 }

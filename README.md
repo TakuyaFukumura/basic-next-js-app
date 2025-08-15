@@ -41,11 +41,11 @@ Next.jsを使ったシンプルな「Hello, world.」アプリケーションで
     ```bash
     npm install
     ```
-    または
+   または
     ```bash
     yarn install
     ```
-    または
+   または
     ```bash
     pnpm install
     ```
@@ -55,11 +55,15 @@ Next.jsを使ったシンプルな「Hello, world.」アプリケーションで
 ```bash
 npm run dev
 ```
+
 または
+
 ```bash
 yarn dev
 ```
+
 または
+
 ```bash
 pnpm dev
 ```
@@ -74,21 +78,27 @@ pnpm dev
 ```bash
 npm run build
 ```
+
 ```bash
 npm start
 ```
 
 または
+
 ```bash
 yarn build
 ```
+
 ```bash
 yarn start
 ```
+
 または
+
 ```bash
 pnpm build
 ```
+
 ```bash
 pnpm start
 ```
@@ -120,6 +130,7 @@ pnpm start
 データベースから最新のメッセージを取得します。
 
 **レスポンス:**
+
 ```json
 {
   "message": "Hello, world."
@@ -132,9 +143,9 @@ SQLiteデータベースは初回起動時に自動的に作成されます：
 
 - データベースファイル: `data/app.db`
 - テーブル: `messages`
-  - `id`: 自動増分プライマリーキー
-  - `content`: メッセージ内容
-  - `created_at`: 作成日時
+    - `id`: 自動増分プライマリーキー
+    - `content`: メッセージ内容
+    - `created_at`: 作成日時
 
 ## カスタマイズ
 
@@ -155,11 +166,15 @@ SQLiteクライアントを使用して `data/app.db` ファイル内の `messag
 ```bash
 npm run lint
 ```
+
 または
+
 ```bash
 yarn lint
 ```
+
 または
+
 ```bash
 pnpm lint
 ```
