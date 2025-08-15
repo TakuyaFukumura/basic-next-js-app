@@ -44,3 +44,6 @@ next-env.d.ts
 /data/
 *.db
 *.sqlite
+
+# ide
+.idea/
