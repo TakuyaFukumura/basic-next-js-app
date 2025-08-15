@@ -26,6 +26,28 @@ export default function Home() {
     fetchMessage();
   }, []);
 
+  let content;
+  if (loading) {
+    content = (
+      <div className="flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <span className="ml-2 text-gray-600 dark:text-gray-400">読み込み中...</span>
+      </div>
+    );
+  } else if (error) {
+    content = (
+      <div className="text-red-600 dark:text-red-400 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+        エラー: {error}
+      </div>
+    );
+  } else {
+    content = (
+      <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl border-2 border-blue-200 dark:border-blue-700">
+        {message}
+      </div>
+    );
+  }
+
   return (
     <div className="font-sans flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
       <main className="text-center p-8">
@@ -33,22 +55,9 @@ export default function Home() {
           <h1 className="text-4xl font-bold mb-8 text-gray-800 dark:text-gray-200">
             basic-next-js-app
           </h1>
-          
+
           <div className="mb-8">
-            {loading ? (
-              <div className="flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                <span className="ml-2 text-gray-600 dark:text-gray-400">読み込み中...</span>
-              </div>
-            ) : error ? (
-              <div className="text-red-600 dark:text-red-400 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                エラー: {error}
-              </div>
-            ) : (
-              <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl border-2 border-blue-200 dark:border-blue-700">
-                {message}
-              </div>
-            )}
+            {content}
           </div>
           
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
