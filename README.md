@@ -1,6 +1,7 @@
-# 基本Next.jsアプリ
+# basic-next-js-app
 
-Next.jsを使ったシンプルな「Hello, world.」アプリケーションです。このプロジェクトは、SQLiteデータベースからメッセージを取得して表示する基本的な機能を提供します。
+Next.jsを使ったシンプルな「Hello, world.」アプリケーションです。
+このプロジェクトは、SQLiteデータベースからメッセージを取得して表示する基本的な機能を提供します。
 
 ## 技術スタック
 
@@ -29,31 +30,42 @@ Next.jsを使ったシンプルな「Hello, world.」アプリケーションで
 ### インストール
 
 1. リポジトリをクローン：
-```bash
-git clone https://github.com/TakuyaFukumura/basic-next-js-app.git
-cd basic-next-js-app
-```
+    ```bash
+    git clone https://github.com/TakuyaFukumura/basic-next-js-app.git
+    ```
+    ```bash
+    cd basic-next-js-app
+    ```
 
 2. 依存関係をインストール：
-```bash
-npm install
-# または
-yarn install
-# または
-pnpm install
-```
+    ```bash
+    npm install
+    ```
+    または
+    ```bash
+    yarn install
+    ```
+    または
+    ```bash
+    pnpm install
+    ```
 
 ### 開発サーバーの起動
 
 ```bash
 npm run dev
-# または
+```
+または
+```bash
 yarn dev
-# または
+```
+または
+```bash
 pnpm dev
 ```
 
-ブラウザで [http://localhost:3000](http://localhost:3000) を開いてアプリケーションを確認してください。
+ブラウザで [http://localhost:3000](http://localhost:3000) を開いて
+アプリケーションを確認してください。
 
 ### ビルドと本番デプロイ
 
@@ -61,12 +73,23 @@ pnpm dev
 
 ```bash
 npm run build
+```
+```bash
 npm start
-# または
+```
+
+または
+```bash
 yarn build
+```
+```bash
 yarn start
-# または
+```
+または
+```bash
 pnpm build
+```
+```bash
 pnpm start
 ```
 
@@ -117,11 +140,13 @@ SQLiteデータベースは初回起動時に自動的に作成されます：
 
 ### メッセージの変更
 
-データベース内のメッセージを変更したい場合は、SQLiteクライアントを使用して `data/app.db` ファイル内の `messages` テーブルを編集してください。
+データベース内のメッセージを変更したい場合は、
+SQLiteクライアントを使用して `data/app.db` ファイル内の `messages` テーブルを編集してください。
 
 ### スタイルの変更
 
-スタイルは Tailwind CSS を使用しています。`src/app/page.tsx` ファイル内のクラス名を変更することで、外観をカスタマイズできます。
+スタイルは Tailwind CSS を使用しています。
+`src/app/page.tsx` ファイル内のクラス名を変更することで、外観をカスタマイズできます。
 
 ## 開発
 
@@ -129,9 +154,13 @@ SQLiteデータベースは初回起動時に自動的に作成されます：
 
 ```bash
 npm run lint
-# または
+```
+または
+```bash
 yarn lint
-# または
+```
+または
+```bash
 pnpm lint
 ```
 
@@ -153,15 +182,3 @@ TypeScriptの型チェックは、ビルド時またはIDEで自動的に実行�
 ```bash
 npm run dev -- --port 3001
 ```
-
-## ライセンス
-
-このプロジェクトはMITライセンスの下で公開されています。
-
-## 貢献
-
-プルリクエストや課題の報告を歓迎します。コントリビューションガイドラインに従ってください。
-
-## 作成者
-
-[TakuyaFukumura](https://github.com/TakuyaFukumura)
