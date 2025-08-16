@@ -1,0 +1,43 @@
+# CI (継続的インテグレーション) ワークフロー
+# プッシュ時に実行される基本的なCI設定
+
+name: CI
+
+# ワークフローを実行するタイミング
+on: 
+  push:
+
+jobs:
+  # コード品質チェックとビルドを行うジョブ
+  test:
+    name: リント・型チェック・ビルド
+    runs-on: ubuntu-latest
+
+    # Node.jsのバージョン戦略（複数バージョンでテスト）
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    # 1. リポジトリのコードをチェックアウト
+    - name: コードのチェックアウト
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+    # 2. Node.js環境をセットアップ
+    - name: Node.js ${{ matrix.node-version }} のセットアップ
+      uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    # 3. 依存関係をインストール
+    - name: 依存関係のインストール
+      run: npm ci
+
+    # 4. ESLintによるコード品質チェック
+    - name: ESLint実行
+      run: npm run lint
+
+    # 5. TypeScript型チェック付きでビルド実行
+    - name: ビルド実行（型チェック含む）
+      run: npm run build
