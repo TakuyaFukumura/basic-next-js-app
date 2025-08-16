@@ -12,7 +12,7 @@ interface DarkModeContextType {
 
 const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined);
 
-export function DarkModeProvider({children}: {children: ReactNode}) {
+export function DarkModeProvider({children}: { children: ReactNode }) {
     const [theme, setThemeState] = useState<Theme>('system');
     const [isDark, setIsDark] = useState(false);
 
