@@ -125,33 +125,25 @@ describe('DarkModeProvider', () => {
         });
     });
 
-    describe('localStorage連携', () => {
-        it('テーマ変更時にlocalStorageに保存される', () => {
-            renderWithProvider(<TestComponent/>);
-
-            act(() => {
-                screen.getByTestId('set-dark').click();
-            });
-
-            expect(localStorageMock.setItem).toHaveBeenCalledWith('theme', 'dark');
+    // テーマ変更操作を関数化
+    const setThemeByTestId = (mode: 'light' | 'dark') => {
+        act(() => {
+            screen.getByTestId(`set-${mode}`).click();
         });
+    };
 
-        it('複数回のテーマ変更が正しく保存される', () => {
+    describe('localStorage連携', () => {
+        it('テーマ変更時にlocalStorageへ正しく保存される', () => {
             renderWithProvider(<TestComponent/>);
 
-            // ダークモードに変更
-            act(() => {
-                screen.getByTestId('set-dark').click();
-            });
+            setThemeByTestId('dark');
+            setThemeByTestId('light');
+            setThemeByTestId('dark');
 
-            // ライトモードに変更
-            act(() => {
-                screen.getByTestId('set-light').click();
-            });
-
-            expect(localStorageMock.setItem).toHaveBeenCalledTimes(2);
+            expect(localStorageMock.setItem).toHaveBeenCalledTimes(3);
             expect(localStorageMock.setItem).toHaveBeenNthCalledWith(1, 'theme', 'dark');
             expect(localStorageMock.setItem).toHaveBeenNthCalledWith(2, 'theme', 'light');
+            expect(localStorageMock.setItem).toHaveBeenNthCalledWith(3, 'theme', 'dark');
         });
     });
 
