@@ -32,5 +32,3 @@ updates:
     commit-message:
       prefix: "npm"
       prefix-development: "npm(dev)"
-    # セキュリティアップデートのみに限定したい場合は以下をコメントアウト
-    # versioning-strategy: "increase-if-necessary"
