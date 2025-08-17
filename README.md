@@ -163,6 +163,53 @@ SQLiteクライアントを使用して `data/app.db` ファイル内の `messag
 
 ## 開発
 
+### テスト
+
+このプロジェクトはJestを使用したテストが設定されています。
+
+#### テストの実行
+
+```bash
+npm test
+```
+
+または
+
+```bash
+yarn test
+```
+
+または
+
+```bash
+pnpm test
+```
+
+#### テストの監視モード
+
+```bash
+npm run test:watch
+```
+
+#### カバレッジレポートの生成
+
+```bash
+npm run test:coverage
+```
+
+#### テストファイルの構成
+
+- `__tests__/lib/database.test.ts`: データベース機能のテスト
+- `__tests__/src/app/components/DarkModeProvider.test.tsx`: ダークモードProvider のテスト
+- `__tests__/src/app/components/Header.test.tsx`: ヘッダーコンポーネントのテスト
+
+#### テストの特徴
+
+- **データベーステスト**: SQLiteを使用した実際のデータベース操作のテスト
+- **Reactコンポーネントテスト**: React Testing Library を使用したコンポーネントのレンダリングとインタラクションのテスト
+- **モッキング**: localStorage や外部依存関係のモック
+- **カバレッジ**: コードカバレッジの測定と報告
+
 ### リンティング
 
 ```bash
@@ -198,6 +245,7 @@ TypeScriptの型チェックは、ビルド時またはIDEで自動的に実行�
 CIでは以下のチェックが行われます：
 - ESLintによる静的解析
 - TypeScriptの型チェック
+- Jestを使用したユニットテストとインテグレーションテスト
 - アプリケーションのビルド検証
 - Node.js 18.x と 20.x での動作確認
 
