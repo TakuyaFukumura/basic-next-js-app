@@ -51,7 +51,7 @@ export default function Home() {
 
     return (
         <div
-            className="font-sans flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+            className="font-sans flex items-center justify-center min-h-[calc(100vh-4rem)] bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
             <main className="text-center p-8">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-12 max-w-md mx-auto">
                     <h1 className="text-4xl font-bold mb-8 text-gray-800 dark:text-gray-200">
