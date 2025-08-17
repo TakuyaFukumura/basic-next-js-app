@@ -1,6 +1,6 @@
 'use client';
 
-import {createContext, useContext, useEffect, useState, ReactNode} from 'react';
+import {createContext, useContext, useEffect, useState, ReactNode, useMemo} from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -17,10 +17,12 @@ export function DarkModeProvider({children}: { readonly children: ReactNode }) {
     const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
-        // ローカルストレージからテーマを読み込み
-        const savedTheme = localStorage.getItem('theme') as Theme;
-        if (savedTheme && ['light', 'dark'].includes(savedTheme)) {
-            setThemeState(savedTheme);
+        // ブラウザ環境のみlocalStorageにアクセス
+        if (typeof window !== 'undefined') {
+            const savedTheme = localStorage.getItem('theme') as Theme;
+            if (savedTheme && ['light', 'dark'].includes(savedTheme)) {
+                setThemeState(savedTheme);
+            }
         }
     }, []);
 
@@ -45,8 +47,10 @@ export function DarkModeProvider({children}: { readonly children: ReactNode }) {
         localStorage.setItem('theme', newTheme);
     };
 
+    const value = useMemo(() => ({ theme, setTheme, isDark }), [theme, isDark]);
+
     return (
-        <DarkModeContext.Provider value={{theme, setTheme, isDark}}>
+        <DarkModeContext.Provider value={value}>
             {children}
         </DarkModeContext.Provider>
     );
