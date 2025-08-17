@@ -201,6 +201,14 @@ CIでは以下のチェックが行われます：
 - アプリケーションのビルド検証
 - Node.js 18.x と 20.x での動作確認
 
+## 自動依存関係更新（Dependabot）
+
+このプロジェクトでは、依存関係の安全性と最新化のために[Dependabot](https://docs.github.com/ja/code-security/dependabot)を利用しています。
+
+- GitHub Actionsおよびnpmパッケージの依存関係は**月次（月曜日 09:00 JST）**で自動チェック・更新されます。
+- 更新内容は自動でプルリクエストとして作成されます。
+- 詳細な設定は `.github/dependabot.yml` を参照してください。
+
 ## トラブルシューティング
 
 ### データベース関連のエラー
