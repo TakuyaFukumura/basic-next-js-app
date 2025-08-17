@@ -168,17 +168,18 @@ describe('Header', () => {
     });
 
     describe('レスポンシブデザイン', () => {
-        it('テキストラベルが適切なクラスで制御されている', () => {
+        beforeEach(() => {
             window.localStorage.setItem('theme', 'light');
             renderWithProvider();
+        });
 
+        it('テキストラベルが適切なクラスで制御されている', () => {
             // 'hidden sm:inline' クラスでモバイルでは非表示になることを想定
             const textLabel = screen.getByText('ライトモード');
             expect(textLabel).toHaveClass('hidden', 'sm:inline');
         });
 
         it('アイコンが常に表示される', () => {
-            renderWithProvider();
 
             const icon = screen.getByText('☀️');
             expect(icon).toBeInTheDocument();
