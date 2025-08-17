@@ -70,13 +70,15 @@ describe('Header', () => {
 
     describe('ダークモード', () => {
         it('ダークモード時に月アイコンが表示される', () => {
-            renderWithProvider('dark');
+            window.localStorage.setItem('theme', 'dark');
+            renderWithProvider();
 
             expect(screen.getByText('🌙')).toBeInTheDocument();
         });
 
         it('ダークモード時のラベルが表示される', () => {
-            renderWithProvider('dark');
+            window.localStorage.setItem('theme', 'dark');
+            renderWithProvider();
 
             expect(screen.getByText('ダークモード')).toBeInTheDocument();
         });
@@ -91,7 +93,8 @@ describe('Header', () => {
 
     describe('テーマ切り替え機能', () => {
         it('ライトモードからダークモードに切り替わる', () => {
-            renderWithProvider('light');
+            window.localStorage.setItem('theme', 'light');
+            renderWithProvider();
 
             // 初期状態の確認
             expect(screen.getByText('☀️')).toBeInTheDocument();
@@ -166,6 +169,7 @@ describe('Header', () => {
 
     describe('レスポンシブデザイン', () => {
         it('テキストラベルが適切なクラスで制御されている', () => {
+            window.localStorage.setItem('theme', 'light');
             renderWithProvider();
 
             // 'hidden sm:inline' クラスでモバイルでは非表示になることを想定

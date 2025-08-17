@@ -43,6 +43,15 @@ describe('Database Functions', () => {
 
     // 各テスト後のクリーンアップ
     afterEach(() => {
+        // データベース接続をクローズ
+        try {
+            const {getDatabase} = require('../../lib/database');
+            const db = getDatabase();
+            if (db && db.close) db.close();
+        } catch (e) {
+            // 初回や未生成時は無視
+        }
+
         if (fs.existsSync(testDbPath)) {
             fs.unlinkSync(testDbPath);
         }
