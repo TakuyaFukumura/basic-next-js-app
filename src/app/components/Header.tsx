@@ -8,8 +8,6 @@ export default function Header() {
     const handleThemeToggle = () => {
         if (theme === 'light') {
             setTheme('dark');
-        } else if (theme === 'dark') {
-            setTheme('system');
         } else {
             setTheme('light');
         }
@@ -18,20 +16,16 @@ export default function Header() {
     const getThemeIcon = () => {
         if (theme === 'light') {
             return '☀️';
-        } else if (theme === 'dark') {
-            return '🌙';
         } else {
-            return '💻';
+            return '🌙';
         }
     };
 
     const getThemeLabel = () => {
         if (theme === 'light') {
             return 'ライトモード';
-        } else if (theme === 'dark') {
-            return 'ダークモード';
         } else {
-            return 'システム設定';
+            return 'ダークモード';
         }
     };
 

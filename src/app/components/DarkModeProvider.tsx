@@ -2,7 +2,7 @@
 
 import {createContext, useContext, useEffect, useState, ReactNode} from 'react';
 
-type Theme = 'light' | 'dark' | 'system';
+type Theme = 'light' | 'dark';
 
 interface DarkModeContextType {
     theme: Theme;
@@ -13,30 +13,20 @@ interface DarkModeContextType {
 const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined);
 
 export function DarkModeProvider({children}: { readonly children: ReactNode }) {
-    const [theme, setThemeState] = useState<Theme>('system');
+    const [theme, setThemeState] = useState<Theme>('light');
     const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
         // ローカルストレージからテーマを読み込み
         const savedTheme = localStorage.getItem('theme') as Theme;
-        if (savedTheme && ['light', 'dark', 'system'].includes(savedTheme)) {
+        if (savedTheme && ['light', 'dark'].includes(savedTheme)) {
             setThemeState(savedTheme);
         }
     }, []);
 
     useEffect(() => {
         const updateTheme = () => {
-            let isDarkMode = false;
-
-            if (theme === 'dark') {
-                isDarkMode = true;
-            } else if (theme === 'light') {
-                isDarkMode = false;
-            } else {
-                // system
-                isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            }
-
+            const isDarkMode = theme === 'dark';
             setIsDark(isDarkMode);
 
             // HTMLタグにdarkクラスを追加/削除
@@ -48,16 +38,6 @@ export function DarkModeProvider({children}: { readonly children: ReactNode }) {
         };
 
         updateTheme();
-
-        // システムテーマの変更を監視
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        if (theme === 'system') {
-            mediaQuery.addEventListener('change', updateTheme);
-        }
-
-        return () => {
-            mediaQuery.removeEventListener('change', updateTheme);
-        };
     }, [theme]);
 
     const setTheme = (newTheme: Theme) => {
