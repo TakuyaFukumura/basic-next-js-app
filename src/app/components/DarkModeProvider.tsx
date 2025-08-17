@@ -13,7 +13,7 @@ interface DarkModeContextType {
 const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined);
 
 export function DarkModeProvider({children}: { readonly children: ReactNode }) {
-    const [theme, setThemeState] = useState<Theme>('light');
+    const [theme, setTheme] = useState<Theme>('light');
     const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
@@ -21,7 +21,7 @@ export function DarkModeProvider({children}: { readonly children: ReactNode }) {
         if (typeof window !== 'undefined') {
             const savedTheme = localStorage.getItem('theme') as Theme;
             if (savedTheme && ['light', 'dark'].includes(savedTheme)) {
-                setThemeState(savedTheme);
+                setTheme(savedTheme);
             }
         }
     }, []);
@@ -42,12 +42,12 @@ export function DarkModeProvider({children}: { readonly children: ReactNode }) {
         updateTheme();
     }, [theme]);
 
-    const setTheme = (newTheme: Theme) => {
-        setThemeState(newTheme);
+    const handleSetTheme = (newTheme: Theme) => {
+        setTheme(newTheme);
         localStorage.setItem('theme', newTheme);
     };
 
-    const value = useMemo(() => ({theme, setTheme, isDark}), [theme, isDark]);
+    const value = useMemo(() => ({theme, setTheme: handleSetTheme, isDark}), [theme, isDark]);
 
     return (
         <DarkModeContext.Provider value={value}>
