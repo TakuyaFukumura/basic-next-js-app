@@ -7,38 +7,13 @@
 
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { DarkModeProvider } from '../../../../src/app/components/DarkModeProvider';
+import { DarkModeProvider } from '@/app/components/DarkModeProvider';
 import Header from '../../../../src/app/components/Header';
-
-// localStorageをモック
-const localStorageMock = (() => {
-  let store: Record<string, string> = {};
-  return {
-    getItem: jest.fn((key: string) => store[key] || null),
-    setItem: jest.fn((key: string, value: string) => {
-      store[key] = value;
-    }),
-    removeItem: jest.fn((key: string) => {
-      delete store[key];
-    }),
-    clear: jest.fn(() => {
-      store = {};
-    }),
-  };
-})();
-
-// 各テスト前にlocalStorageを初期化
-beforeEach(() => {
-  localStorageMock.clear();
-  Object.defineProperty(window, 'localStorage', {
-    value: localStorageMock,
-  });
-});
 
 describe('Header', () => {
   const renderWithProvider = (initialTheme?: 'light' | 'dark') => {
     if (initialTheme) {
-      localStorageMock.getItem.mockReturnValue(initialTheme);
+      window.localStorage.getItem = jest.fn(() => initialTheme);
     }
     
     return render(
