@@ -33,7 +33,7 @@ function cleanupTestDir() {
 // pathモジュールのjoinのみモック
 jest.mock('path', () => ({
     ...jest.requireActual('path'),
-    join: (...args) => {
+    join: (...args: string[]): string => {
         if (args[1] === 'data' && args[2] === 'app.db') {
             return testDbPath;
         }
