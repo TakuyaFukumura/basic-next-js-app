@@ -21,6 +21,7 @@ function setupTestDir() {
         fs.unlinkSync(testDbPath);
     }
 }
+
 function cleanupTestDir() {
     if (fs.existsSync(testDbPath)) {
         fs.unlinkSync(testDbPath);
@@ -56,7 +57,8 @@ describe('Database Functions', () => {
             const {getDatabase} = require('../../lib/database');
             const db = getDatabase();
             if (db && db.close) db.close();
-        } catch {}
+        } catch {
+        }
 
         cleanupTestDir();
     });
