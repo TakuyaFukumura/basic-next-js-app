@@ -47,7 +47,7 @@ export function DarkModeProvider({children}: { readonly children: ReactNode }) {
         localStorage.setItem('theme', newTheme);
     };
 
-    const value = useMemo(() => ({ theme, setTheme, isDark }), [theme, isDark]);
+    const value = useMemo(() => ({theme, setTheme, isDark}), [theme, isDark]);
 
     return (
         <DarkModeContext.Provider value={value}>
