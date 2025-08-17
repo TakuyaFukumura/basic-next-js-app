@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { render, screen, act, renderHook } from '@testing-library/react';
-import { DarkModeProvider, useDarkMode } from '../../../../src/app/components/DarkModeProvider';
+import { DarkModeProvider, useDarkMode } from '@/app/components/DarkModeProvider';
 
 // localStorageをモック
 const localStorageMock = (() => {
