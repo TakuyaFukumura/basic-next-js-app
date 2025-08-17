@@ -8,35 +8,43 @@
 import fs from 'fs';
 import path from 'path';
 
-// テスト専用のデータディレクトリ
+// テスト専用のデータディレクトリ・DBパス
 const testDataDir = path.join(__dirname, 'test-data');
 const testDbPath = path.join(testDataDir, 'test-app.db');
 
-// pathモジュールをモックして、データベースファイルのパスをテスト用に変更
+// テスト用ディレクトリ・ファイル操作関数
+function setupTestDir() {
+    if (!fs.existsSync(testDataDir)) {
+        fs.mkdirSync(testDataDir, {recursive: true});
+    }
+    if (fs.existsSync(testDbPath)) {
+        fs.unlinkSync(testDbPath);
+    }
+}
+function cleanupTestDir() {
+    if (fs.existsSync(testDbPath)) {
+        fs.unlinkSync(testDbPath);
+    }
+    if (fs.existsSync(testDataDir)) {
+        fs.rmSync(testDataDir, {recursive: true, force: true});
+    }
+}
+
+// pathモジュールのjoinのみモック
 jest.mock('path', () => ({
     ...jest.requireActual('path'),
-    join: jest.fn().mockImplementation((...args) => {
-        // データベースファイルのパスをテスト用に変更
-        if (args.length >= 3 && args[1] === 'data' && args[2] === 'app.db') {
+    join: (...args) => {
+        if (args[1] === 'data' && args[2] === 'app.db') {
             return testDbPath;
         }
         return jest.requireActual('path').join(...args);
-    }),
+    },
 }));
 
 describe('Database Functions', () => {
     // 各テスト前の準備
     beforeEach(() => {
-        // テストデータディレクトリを確保
-        if (!fs.existsSync(testDataDir)) {
-            fs.mkdirSync(testDataDir, {recursive: true});
-        }
-
-        // 既存のテストデータベースファイルを削除
-        if (fs.existsSync(testDbPath)) {
-            fs.unlinkSync(testDbPath);
-        }
-
+        setupTestDir();
         // モジュールキャッシュをリセットして、各テストで新しいインスタンスを作成
         jest.resetModules();
     });
@@ -48,16 +56,9 @@ describe('Database Functions', () => {
             const {getDatabase} = require('../../lib/database');
             const db = getDatabase();
             if (db && db.close) db.close();
-        } catch (e) {
-            // 初回や未生成時は無視
-        }
+        } catch {}
 
-        if (fs.existsSync(testDbPath)) {
-            fs.unlinkSync(testDbPath);
-        }
-        if (fs.existsSync(testDataDir)) {
-            fs.rmSync(testDataDir, {recursive: true, force: true});
-        }
+        cleanupTestDir();
     });
 
     describe('getDatabase', () => {
