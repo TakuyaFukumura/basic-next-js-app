@@ -13,7 +13,7 @@ updates:
       timezone: "Asia/Tokyo"
     # プルリクエストの制限数
     open-pull-requests-limit: 5
-    # コミットメッセージを設定
+    # コミットメッセージ設定
     commit-message:
       prefix: "github-actions"
       prefix-development: "github-actions(dev)"
@@ -28,7 +28,7 @@ updates:
       timezone: "Asia/Tokyo"
     # プルリクエストの制限数
     open-pull-requests-limit: 10
-    # コミットメッセージを設定
+    # コミットメッセージ設定
     commit-message:
       prefix: "npm"
       prefix-development: "npm(dev)"
