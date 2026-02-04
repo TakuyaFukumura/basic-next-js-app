@@ -18,7 +18,7 @@ export function DarkModeProvider({children}: { readonly children: ReactNode }) {
 
     useEffect(() => {
         // ブラウザ環境のみlocalStorageにアクセス
-        if (typeof window !== 'undefined') {
+        if (globalThis.window !== undefined) {
             const savedTheme = localStorage.getItem('theme') as Theme;
             if (savedTheme && ['light', 'dark'].includes(savedTheme)) {
                 setTheme(savedTheme);
