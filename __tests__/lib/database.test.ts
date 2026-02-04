@@ -51,10 +51,10 @@ describe('Database Functions', () => {
     });
 
     // 各テスト後のクリーンアップ
-    afterEach(() => {
+    afterEach(async () => {
         // データベース接続をクローズ
         try {
-            const {getDatabase} = require('../../lib/database');
+            const {getDatabase} = await import('../../lib/database');
             const db = getDatabase();
             if (db && db.close) db.close();
         } catch {
@@ -64,16 +64,16 @@ describe('Database Functions', () => {
     });
 
     describe('getDatabase', () => {
-        it('新しいデータベース接続を作成する', () => {
-            const {getDatabase} = require('../../lib/database');
+        it('新しいデータベース接続を作成する', async () => {
+            const {getDatabase} = await import('../../lib/database');
             const db = getDatabase();
 
             expect(db).toBeDefined();
             expect(db.open).toBe(true);
         });
 
-        it('messagesテーブルを作成する', () => {
-            const {getDatabase} = require('../../lib/database');
+        it('messagesテーブルを作成する', async () => {
+            const {getDatabase} = await import('../../lib/database');
             const db = getDatabase();
 
             // テーブルの存在を確認
@@ -82,8 +82,8 @@ describe('Database Functions', () => {
             expect(tableInfo).toHaveProperty('name', 'messages');
         });
 
-        it('初期データを挿入する', () => {
-            const {getDatabase} = require('../../lib/database');
+        it('初期データを挿入する', async () => {
+            const {getDatabase} = await import('../../lib/database');
             const db = getDatabase();
 
             // 初期データの存在を確認
@@ -94,38 +94,45 @@ describe('Database Functions', () => {
             expect(message.content).toBe('Hello, world.');
         });
 
-        it('既存のデータベース接続を再利用する', () => {
-            const {getDatabase} = require('../../lib/database');
+        it('既存のデータベース接続を再利用する', async () => {
+            const {getDatabase} = await import('../../lib/database');
             const db1 = getDatabase();
             const db2 = getDatabase();
 
             expect(db1).toBe(db2);
         });
 
-        it('データベーステーブルの構造を確認する', () => {
-            const {getDatabase} = require('../../lib/database');
+        it('データベーステーブルの構造を確認する', async () => {
+            const {getDatabase} = await import('../../lib/database');
             const db = getDatabase();
 
             // テーブル構造を確認
-            const tableInfo = db.prepare("PRAGMA table_info(messages)").all();
+            interface ColumnInfo {
+                name: string;
+                type: string;
+                notnull: number;
+                dflt_value: string | null;
+                pk: number;
+            }
+            const tableInfo = db.prepare("PRAGMA table_info(messages)").all() as ColumnInfo[];
 
             expect(tableInfo).toHaveLength(3);
-            expect(tableInfo.find((col: any) => col.name === 'id')).toBeDefined();
-            expect(tableInfo.find((col: any) => col.name === 'content')).toBeDefined();
-            expect(tableInfo.find((col: any) => col.name === 'created_at')).toBeDefined();
+            expect(tableInfo.find((col) => col.name === 'id')).toBeDefined();
+            expect(tableInfo.find((col) => col.name === 'content')).toBeDefined();
+            expect(tableInfo.find((col) => col.name === 'created_at')).toBeDefined();
         });
     });
 
     describe('getMessage', () => {
-        it('デフォルトメッセージを取得する', () => {
-            const {getMessage} = require('../../lib/database');
+        it('デフォルトメッセージを取得する', async () => {
+            const {getMessage} = await import('../../lib/database');
 
             const message = getMessage();
             expect(message).toBe('Hello, world.');
         });
 
-        it('メッセージが存在しない場合はデフォルトメッセージを返す', () => {
-            const {getDatabase, getMessage} = require('../../lib/database');
+        it('メッセージが存在しない場合はデフォルトメッセージを返す', async () => {
+            const {getDatabase, getMessage} = await import('../../lib/database');
             const db = getDatabase();
 
             // 全てのメッセージを削除
@@ -137,8 +144,8 @@ describe('Database Functions', () => {
     });
 
     describe('Database Integration', () => {
-        it('複数のメッセージから最新のものを取得する', () => {
-            const {getDatabase, getMessage} = require('../../lib/database');
+        it('複数のメッセージから最新のものを取得する', async () => {
+            const {getDatabase, getMessage} = await import('../../lib/database');
             const db = getDatabase();
 
             // 複数のメッセージを追加（時間間隔を設けるため少し待機）
@@ -152,15 +159,15 @@ describe('Database Functions', () => {
             expect(message).toBe('Latest message');
         });
 
-        it('データベースファイルが存在することを確認する', () => {
-            const {getDatabase} = require('../../lib/database');
+        it('データベースファイルが存在することを確認する', async () => {
+            const {getDatabase} = await import('../../lib/database');
             getDatabase();
 
             expect(fs.existsSync(testDbPath)).toBe(true);
         });
 
-        it('データベースへの基本的なCRUD操作', () => {
-            const {getDatabase} = require('../../lib/database');
+        it('データベースへの基本的なCRUD操作', async () => {
+            const {getDatabase} = await import('../../lib/database');
             const db = getDatabase();
 
             // Create: メッセージを追加
