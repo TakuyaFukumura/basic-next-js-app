@@ -5,8 +5,8 @@ Next.jsを使ったシンプルな「Hello, world.」アプリケーションで
 
 ## 技術スタック
 
-- **Next.js 15.4.6** - React フレームワーク（App Routerを使用）
-- **React 19** - ユーザーインターフェース構築
+- **Next.js 16.1.6** - React フレームワーク（App Routerを使用）
+- **React 19.2.4** - ユーザーインターフェース構築
 - **TypeScript** - 型安全性
 - **Tailwind CSS 4** - スタイリング
 - **SQLite** - データベース（better-sqlite3）
@@ -115,13 +115,16 @@ pnpm start
 │       ├── api/
 │       │   └── message/
 │       │       └── route.ts # APIエンドポイント
+│       ├── components/      # Reactコンポーネント
+│       │   ├── DarkModeProvider.tsx  # ダークモードProvider
+│       │   └── Header.tsx   # ヘッダーコンポーネント
 │       ├── globals.css      # グローバルスタイル
 │       ├── layout.tsx       # アプリケーションレイアウト
 │       └── page.tsx         # メインページコンポーネント
 ├── data/                    # SQLiteデータベースファイル（自動生成）
 ├── package.json
 ├── next.config.ts
-├── tailwind.config.js
+├── tailwind.config.ts
 └── tsconfig.json
 ```
 
