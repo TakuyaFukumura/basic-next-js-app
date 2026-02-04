@@ -1,8 +1,8 @@
 // Jest用のセットアップファイル
 import '@testing-library/jest-dom'
+import { TextEncoder, TextDecoder } from 'util'
 
 // mock用のグローバル設定
-const { TextEncoder, TextDecoder } = require('util')
 global.TextEncoder = TextEncoder
 global.TextDecoder = TextDecoder
 

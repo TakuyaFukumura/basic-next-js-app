@@ -1,4 +1,4 @@
-const nextJest = require('next/jest')
+import nextJest from 'next/jest.js'
 
 /** @type {import('jest').Config} */
 const createJestConfig = nextJest({
@@ -41,4 +41,4 @@ const config = {
 }
 
 // Next.js用のJest設定を作成
-module.exports = createJestConfig(config)
+export default createJestConfig(config)
