@@ -42,8 +42,6 @@ jest.mock('path', () => ({
     },
 }));
 
-import type * as DatabaseModule from '../../lib/database';
-
 describe('Database Functions', () => {
     // 各テスト前の準備
     beforeEach(() => {
@@ -53,11 +51,10 @@ describe('Database Functions', () => {
     });
 
     // 各テスト後のクリーンアップ
-    afterEach(() => {
+    afterEach(async () => {
         // データベース接続をクローズ
         try {
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            const {getDatabase} = require('../../lib/database') as typeof DatabaseModule;
+            const {getDatabase} = await import('../../lib/database');
             const db = getDatabase();
             if (db && db.close) db.close();
         } catch {
