@@ -114,6 +114,7 @@ describe('Database Functions', () => {
                 dflt_value: string | null;
                 pk: number;
             }
+
             const tableInfo = db.prepare("PRAGMA table_info(messages)").all() as ColumnInfo[];
 
             expect(tableInfo).toHaveLength(3);

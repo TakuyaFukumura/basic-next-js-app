@@ -11,6 +11,7 @@
 ## 現状分析
 
 ### 技術スタック
+
 - **Next.js**: 15.4.6 (App Router使用)
 - **React**: 19.1.1
 - **TypeScript**: 最新版
@@ -21,6 +22,7 @@
 - **依存関係管理**: Dependabot
 
 ### 現在の機能
+
 - SQLiteデータベースからのメッセージ取得
 - ダークモード対応（手動切替）
 - レスポンシブデザイン
@@ -29,6 +31,7 @@
 - 自動CI/CD パイプライン
 
 ### コード品質状況
+
 - ✅ ESLint: エラーなし
 - ✅ テスト: 38件全て成功
 - ✅ ビルド: 正常完了
@@ -39,11 +42,14 @@
 ### 🔴 優先度: 高（即座に対応推奨）
 
 #### 1. コード品質とフォーマット
+
 **現状**: ESLintのみでPrettierが未設定
 **改善案**:
+
 ```bash
 npm install --save-dev prettier eslint-config-prettier eslint-plugin-prettier
 ```
+
 - `.prettierrc.json`の追加
 - `.prettierignore`の追加
 - package.jsonにformat scriptの追加
@@ -51,8 +57,10 @@ npm install --save-dev prettier eslint-config-prettier eslint-plugin-prettier
 **効果**: 一貫したコードフォーマットによる可読性向上
 
 #### 2. セキュリティヘッダー
+
 **現状**: `next.config.ts`にセキュリティヘッダーが未設定
 **改善案**:
+
 ```typescript
 const nextConfig = {
   async headers() {
@@ -82,8 +90,10 @@ const nextConfig = {
 **効果**: 基本的なセキュリティ脆弱性の防止
 
 #### 3. 環境変数の検証
+
 **現状**: 環境変数の型安全性が確保されていない
 **改善案**:
+
 - `lib/env.ts`の追加でzodによる環境変数検証
 - 開発・本番環境での設定分離
 
@@ -92,31 +102,39 @@ const nextConfig = {
 ### 🟡 優先度: 中（1-2週間以内に対応推奨）
 
 #### 4. API改善
+
 **現状**: APIルートに入力検証とエラーハンドリングが不十分
 **改善案**:
+
 - APIミドルウェアの追加
 - Zodによるリクエスト検証
 - 統一されたエラーレスポンス形式
 - APIレート制限の実装
 
 #### 5. データベース管理
+
 **現状**: マイグレーションシステムがない
 **改善案**:
+
 - `lib/migrations/`ディレクトリの追加
 - マイグレーションスクリプト
 - シードデータ管理
 - データベーススキーマのバージョン管理
 
 #### 6. 開発体験の向上
+
 **改善案**:
+
 - `.vscode/settings.json`の追加
 - Huskyによるpre-commit hookの設定
 - Conventional Commitsの導入
 - 開発用Docker環境の提供
 
 #### 7. エラーハンドリング
+
 **現状**: React Error Boundaryが未実装
 **改善案**:
+
 - グローバルエラーバウンダリの追加
 - `app/error.tsx`と`app/global-error.tsx`の実装
 - ユーザーフレンドリーなエラーページ
@@ -124,28 +142,36 @@ const nextConfig = {
 ### 🟢 優先度: 低（1ヶ月以内に検討）
 
 #### 8. テスト拡充
+
 **改善案**:
+
 - Playwrightによるe2eテスト追加
 - Storybookによるコンポーネントカタログ
 - アクセシビリティテスト（@axe-core/react）
 - Visual Regression Testing
 
 #### 9. パフォーマンス最適化
+
 **改善案**:
+
 - Next.js Analytics導入
 - Bundle Analyzerの設定
 - 画像最適化のベストプラクティス
 - Core Web Vitalsの監視
 
 #### 10. PWA対応
+
 **改善案**:
+
 - Service Workerの実装
 - Web App Manifestの追加
 - オフライン対応
 - プッシュ通知機能
 
 #### 11. SEO強化
+
 **改善案**:
+
 - 構造化データの追加
 - sitemap.xmlの自動生成
 - robots.txtの最適化
@@ -154,14 +180,18 @@ const nextConfig = {
 ### 🔵 長期的改善（3ヶ月以内）
 
 #### 12. 監視・ログ
+
 **改善案**:
+
 - Sentryによるエラー監視
 - 構造化ログの実装
 - パフォーマンス監視
 - ヘルスチェックエンドポイント
 
 #### 13. デプロイメント
+
 **改善案**:
+
 - Dockerコンテナ化
 - 環境別設定管理
 - ブルーグリーンデプロイメント
@@ -170,24 +200,28 @@ const nextConfig = {
 ## 実装ロードマップ
 
 ### フェーズ1（1週間）: 基盤整備
+
 1. Prettier設定
 2. セキュリティヘッダー追加
 3. 環境変数検証
 4. Error Boundary実装
 
 ### フェーズ2（2-3週間）: 開発体験向上
+
 1. pre-commit hooks設定
 2. VS Code設定
 3. API改善
 4. データベースマイグレーション
 
 ### フェーズ3（1ヶ月）: テスト・品質向上
+
 1. e2eテスト追加
 2. アクセシビリティテスト
 3. パフォーマンス最適化
 4. ドキュメント充実
 
 ### フェーズ4（2-3ヶ月）: 高度な機能
+
 1. PWA対応
 2. 監視・ログシステム
 3. 本格的なデプロイメント環境
@@ -198,6 +232,7 @@ const nextConfig = {
 ### Prettier設定例
 
 `.prettierrc.json`:
+
 ```json
 {
   "semi": true,
@@ -212,6 +247,7 @@ const nextConfig = {
 ### Error Boundary実装例
 
 `src/app/components/ErrorBoundary.tsx`:
+
 ```tsx
 'use client';
 
@@ -260,6 +296,7 @@ export class ErrorBoundary extends Component<Props, State> {
 ### 環境変数検証例
 
 `lib/env.ts`:
+
 ```typescript
 import { z } from 'zod';
 
@@ -275,11 +312,13 @@ export const env = envSchema.parse(process.env);
 ## 効果予測
 
 ### 短期効果（1ヶ月以内）
+
 - 開発効率20%向上
 - バグ発生率30%削減
 - コードレビュー時間50%短縮
 
 ### 中長期効果（3ヶ月以内）
+
 - ユーザー体験の向上
 - セキュリティリスクの大幅削減
 - 保守性・拡張性の向上
