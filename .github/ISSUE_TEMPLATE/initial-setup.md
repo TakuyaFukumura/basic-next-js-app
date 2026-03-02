@@ -12,6 +12,7 @@ about: GitHub Copilot Coding Agent への指示文
 - リポジトリ名に合わせてrenameしてください
   - 「basic-next-js-app」を全て置き換えてください
   - README.md、package.json、ヘッダーファイル、テストコード等の記述も全て置き換えてください
+- docsディレクトリ内のmarkdownファイルは全て削除してください
 - このテンプレートファイルinitial-setup.mdは初回専用のため使用後は削除してください
 
 # 備考
