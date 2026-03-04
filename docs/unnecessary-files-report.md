@@ -136,11 +136,15 @@ body {
 }
 ```
 
-また `@theme inline` の `--color-background` / `--color-foreground` を削除する場合、
-これらの変数の参照先がなくなります。
+なお、`@theme inline` 側の `--color-background` / `--color-foreground` を削除しても、
+上記の `:root` / `.dark` に定義した `--background` / `--foreground` 自体や、
+`body` からの `var(--background)` / `var(--foreground)` の参照はそのまま残ります。
 
-`body` の `background` / `color` を直接カラーコードで記述することで変数定義ごと削除できます。
-ただし、ダークモード時のスタイル切り替えも `body` レベルで行っている点に注意が必要です。
+これらの変数定義（`:root` / `.dark` ブロック）を削除したい場合は、
+`body` の `background` / `color` で `var(--background)` / `var(--foreground)` を使うのをやめ、
+直接カラーコードを書くか、別の方法（例: Tailwind の色ユーティリティ）に置き換える必要があります。
+ただし、ダークモード時の `body` 背景・文字色の切り替えも `:root` / `.dark` の変数に依存しているため、
+削除する際は代替手段を合わせて検討してください。
 
 **削除可否**: ⚠️ 削除可能だが、`body` スタイルの修正が必要
 
