@@ -11,6 +11,7 @@ interface DarkModeContextType {
 }
 
 const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined);
+const isTheme = (value: string | null): value is Theme => value === 'light' || value === 'dark';
 
 export function DarkModeProvider({children}: { readonly children: ReactNode }) {
     const [theme, setTheme] = useState<Theme>(() => {
@@ -18,8 +19,12 @@ export function DarkModeProvider({children}: { readonly children: ReactNode }) {
             return 'light';
         }
 
-        const savedTheme = localStorage.getItem('theme');
-        return savedTheme === 'dark' ? 'dark' : 'light';
+        try {
+            const savedTheme = localStorage.getItem('theme');
+            return isTheme(savedTheme) ? savedTheme : 'light';
+        } catch {
+            return 'light';
+        }
     });
     const [isDark, setIsDark] = useState(false);
 
