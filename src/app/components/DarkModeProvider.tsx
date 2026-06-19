@@ -11,20 +11,22 @@ interface DarkModeContextType {
 }
 
 const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined);
+const isTheme = (value: string | null): value is Theme => value === 'light' || value === 'dark';
 
 export function DarkModeProvider({children}: { readonly children: ReactNode }) {
-    const [theme, setTheme] = useState<Theme>('light');
-    const [isDark, setIsDark] = useState(false);
-
-    useEffect(() => {
-        // ブラウザ環境のみlocalStorageにアクセス
-        if (globalThis.window !== undefined) {
-            const savedTheme = localStorage.getItem('theme') as Theme;
-            if (savedTheme && ['light', 'dark'].includes(savedTheme)) {
-                setTheme(savedTheme);
-            }
+    const [theme, setTheme] = useState<Theme>(() => {
+        if (typeof window === 'undefined') {
+            return 'light';
         }
-    }, []);
+
+        try {
+            const savedTheme = localStorage.getItem('theme');
+            return isTheme(savedTheme) ? savedTheme : 'light';
+        } catch {
+            return 'light';
+        }
+    });
+    const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
         const updateTheme = () => {
