@@ -1,4 +1,4 @@
-# CI (継続的インテグレーション) ワークフロー
+# CI ワークフロー
 # プッシュ時に実行される基本的なCI設定
 
 name: CI
@@ -13,7 +13,7 @@ jobs:
     name: リント・型チェック・ビルド・テスト
     runs-on: ubuntu-latest
 
-    # Node.jsのバージョン戦略（複数バージョンでテスト）
+    # Node.jsのバージョン戦略
     strategy:
       matrix:
         node-version: [ 20.x ]
