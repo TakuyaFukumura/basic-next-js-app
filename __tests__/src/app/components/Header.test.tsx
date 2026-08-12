@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import {fireEvent, render, screen, waitFor} from '@testing-library/react';
+import {act, fireEvent, render, screen, waitFor, within} from '@testing-library/react';
+import {hydrateRoot, type Root} from 'react-dom/client';
 import {renderToString} from 'react-dom/server';
 import {DarkModeProvider} from '@/app/components/DarkModeProvider';
 import Header from '../../../../src/app/components/Header';
@@ -107,8 +108,8 @@ describe('Header', () => {
     });
 
     describe('Hydration Mismatch 対策', () => {
-        it('サーバー描画時は保存済みテーマを読まずライトモードを出力する', () => {
-            getItemSpy.mockReturnValue('dark');
+        it('保存済みテーマが異なっても hydration warning を出さない', async () => {
+            getItemSpy.mockReturnValue('light');
 
             const serverHtml = renderToString(
                 <DarkModeProvider>
@@ -116,9 +117,38 @@ describe('Header', () => {
                 </DarkModeProvider>
             );
 
-            expect(serverHtml).toContain('☀️');
-            expect(serverHtml).toContain('ライトモード');
-            expect(getItemSpy).not.toHaveBeenCalled();
+            getItemSpy.mockReturnValue('dark');
+
+            const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {
+            });
+            const container = document.createElement('div');
+            container.innerHTML = serverHtml;
+            document.body.appendChild(container);
+
+            let root: Root | undefined;
+
+            try {
+                await act(async () => {
+                    root = hydrateRoot(
+                        container,
+                        <DarkModeProvider>
+                            <Header/>
+                        </DarkModeProvider>
+                    );
+                });
+
+                await waitFor(() => {
+                    expect(within(container).getByText('ダークモード')).toBeInTheDocument();
+                });
+
+                expect(
+                    consoleErrorSpy.mock.calls.some((call) => call.some((arg) => String(arg).includes('Hydration failed')))
+                ).toBe(false);
+            } finally {
+                root?.unmount();
+                container.remove();
+                consoleErrorSpy.mockRestore();
+            }
         });
     });
 

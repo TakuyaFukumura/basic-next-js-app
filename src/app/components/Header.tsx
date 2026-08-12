@@ -1,9 +1,15 @@
 'use client';
 
+import {useSyncExternalStore} from 'react';
 import {useDarkMode} from './DarkModeProvider';
+
+const emptySubscribe = () => () => {
+};
 
 export default function Header() {
     const {theme, setTheme} = useDarkMode();
+    const isHydrated = useSyncExternalStore(emptySubscribe, () => true, () => false);
+    const displayTheme = isHydrated ? theme : 'light';
 
     const handleThemeToggle = () => {
         if (theme === 'light') {
@@ -14,7 +20,7 @@ export default function Header() {
     };
 
     const getThemeIcon = () => {
-        if (theme === 'light') {
+        if (displayTheme === 'light') {
             return '☀️';
         } else {
             return '🌙';
@@ -22,7 +28,7 @@ export default function Header() {
     };
 
     const getThemeLabel = () => {
-        if (theme === 'light') {
+        if (displayTheme === 'light') {
             return 'ライトモード';
         } else {
             return 'ダークモード';
