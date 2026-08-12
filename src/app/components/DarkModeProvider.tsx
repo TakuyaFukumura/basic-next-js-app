@@ -14,39 +14,38 @@ const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined
 const isTheme = (value: string | null): value is Theme => value === 'light' || value === 'dark';
 
 export function DarkModeProvider({children}: { readonly children: ReactNode }) {
-    const [theme, setTheme] = useState<Theme>(() => {
-        if (typeof window === 'undefined') {
-            return 'light';
-        }
-
-        try {
-            const savedTheme = localStorage.getItem('theme');
-            return isTheme(savedTheme) ? savedTheme : 'light';
-        } catch {
-            return 'light';
-        }
-    });
-    const [isDark, setIsDark] = useState(false);
+    const [theme, setTheme] = useState<Theme>('light');
+    const isDark = theme === 'dark';
 
     useEffect(() => {
-        const updateTheme = () => {
-            const isDarkMode = theme === 'dark';
-            setIsDark(isDarkMode);
+        try {
+            const savedTheme = localStorage.getItem('theme');
 
-            // HTMLタグにdarkクラスを追加/削除
-            if (isDarkMode) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
+            if (isTheme(savedTheme)) {
+                setTheme(savedTheme);
             }
-        };
+        } catch {
+            // localStorage が利用できない環境ではデフォルトテーマを維持する
+        }
+    }, []);
 
-        updateTheme();
-    }, [theme]);
+    useEffect(() => {
+        // HTMLタグにdarkクラスを追加/削除
+        if (isDark) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [isDark]);
 
     const handleSetTheme = (newTheme: Theme) => {
         setTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
+
+        try {
+            localStorage.setItem('theme', newTheme);
+        } catch {
+            // localStorage が利用できない環境では状態更新のみ行う
+        }
     };
 
     const value = useMemo(() => ({theme, setTheme: handleSetTheme, isDark}), [theme, isDark]);
