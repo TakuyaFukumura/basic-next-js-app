@@ -1,10 +1,11 @@
 import {NextResponse} from 'next/server';
 import {getMessage} from '../../../../lib/database';
+import type {ApiResponse} from '../../../types/api';
 
 /**
  * メッセージを取得するAPIエンドポイント
  */
-export async function GET() {
+export async function GET(): Promise<NextResponse<ApiResponse>> {
     try {
         const message = getMessage();
         return NextResponse.json({message});
