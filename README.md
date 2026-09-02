@@ -5,8 +5,8 @@ Next.jsを使ったシンプルな「Hello, world.」アプリケーションで
 
 ## 技術スタック
 
-- **Next.js 16.1.6** - React フレームワーク（App Routerを使用）
-- **React 19.2.4** - ユーザーインターフェース構築
+- **Next.js 16.3.3** - React フレームワーク（App Routerを使用）
+- **React 19.2.8** - ユーザーインターフェース構築
 - **TypeScript** - 型安全性
 - **Tailwind CSS 4** - スタイリング
 - **SQLite** - データベース（better-sqlite3）
@@ -26,7 +26,7 @@ Next.jsを使ったシンプルな「Hello, world.」アプリケーションで
 
 ### 前提条件
 
-- Node.js 20.x以上
+- Node.js 26.x以上
 - npm、yarn、またはpnpm
 
 ### インストール
@@ -252,7 +252,7 @@ CIでは以下のチェックが行われます：
 - TypeScriptの型チェック
 - Jestを使用したユニットテストとインテグレーションテスト
 - アプリケーションのビルド検証
-- Node.js 20.x での動作確認
+- Node.js 26.x での動作確認
 
 ## 自動依存関係更新（Dependabot）
 
