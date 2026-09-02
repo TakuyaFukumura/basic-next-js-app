@@ -45,7 +45,7 @@ export function getDatabase(): Database.Database {
  */
 export function getMessage(): string {
     const database = getDatabase();
-    const result = database.prepare('SELECT content FROM messages ORDER BY created_at DESC LIMIT 1').get() as {
+    const result = database.prepare('SELECT content FROM messages ORDER BY created_at DESC, id DESC LIMIT 1').get() as {
         content: string
     } | undefined;
     return result?.content || 'Hello, world.';
