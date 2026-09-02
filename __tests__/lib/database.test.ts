@@ -160,6 +160,18 @@ describe('Database Functions', () => {
             expect(message).toBe('Latest message');
         });
 
+        it('作成日時が同じ場合はIDの大きいメッセージを取得する', async () => {
+            const {getDatabase, getMessage} = await import('../../lib/database');
+            const db = getDatabase();
+            const createdAt = '2026-09-02T00:00:00.000Z';
+
+            db.prepare('DELETE FROM messages').run();
+            db.prepare('INSERT INTO messages (content, created_at) VALUES (?, ?)').run('Earlier message', createdAt);
+            db.prepare('INSERT INTO messages (content, created_at) VALUES (?, ?)').run('Later message', createdAt);
+
+            expect(getMessage()).toBe('Later message');
+        });
+
         it('データベースファイルが存在することを確認する', async () => {
             const {getDatabase} = await import('../../lib/database');
             getDatabase();
