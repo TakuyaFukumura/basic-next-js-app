@@ -1,30 +1,44 @@
 'use client';
 
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
+import {isErrorResponse, isMessageResponse} from '../types/api';
 
 export default function Home() {
-    const [message, setMessage] = useState<string>('読み込み中...');
+    const [message, setMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchMessage = async () => {
-            try {
-                const response = await fetch('/api/message');
-                if (!response.ok) {
-                    throw new Error('メッセージの取得に失敗しました');
-                }
-                const data = await response.json();
-                setMessage(data.message);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : '予期しないエラーが発生しました');
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchMessage = useCallback(async () => {
+        setLoading(true);
+        setError(null);
 
-        fetchMessage();
+        try {
+            const response = await fetch('/api/message');
+            const data: unknown = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    isErrorResponse(data) ? data.error : 'メッセージの取得に失敗しました'
+                );
+            }
+
+            if (!isMessageResponse(data)) {
+                throw new Error('APIレスポンスの形式が不正です');
+            }
+
+            setMessage(data.message);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : '予期しないエラーが発生しました');
+        } finally {
+            setLoading(false);
+        }
     }, []);
+
+    useEffect(() => {
+        // 初回表示時にAPIを取得し、取得完了後に表示状態を更新する。
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        void fetchMessage();
+    }, [fetchMessage]);
 
     let content;
     if (loading) {
@@ -38,6 +52,13 @@ export default function Home() {
         content = (
             <div className="text-red-600 dark:text-red-400 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
                 エラー: {error}
+                <button
+                    type="button"
+                    onClick={() => void fetchMessage()}
+                    className="mt-4 block mx-auto rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                >
+                    再試行
+                </button>
             </div>
         );
     } else {
