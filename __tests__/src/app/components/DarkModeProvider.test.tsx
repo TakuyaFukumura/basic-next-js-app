@@ -145,6 +145,18 @@ describe('DarkModeProvider', () => {
             expect(localStorageMock.setItem).toHaveBeenNthCalledWith(2, 'theme', 'light');
             expect(localStorageMock.setItem).toHaveBeenNthCalledWith(3, 'theme', 'dark');
         });
+
+        it('localStorageが利用できなくてもテーマを変更できる', () => {
+            localStorageMock.setItem.mockImplementation(() => {
+                throw new Error('Storage unavailable');
+            });
+            renderWithProvider(<TestComponent/>);
+
+            setThemeByTestId('dark');
+
+            expect(screen.getByTestId('theme')).toHaveTextContent('dark');
+            expect(screen.getByTestId('isDark')).toHaveTextContent('true');
+        });
     });
 
     describe('useDarkMode フック', () => {
