@@ -1,19 +1,23 @@
 'use client';
 
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {isErrorResponse, isMessageResponse} from '../types/api';
 
 export default function Home() {
     const [message, setMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const requestController = useRef<AbortController | null>(null);
 
     const fetchMessage = useCallback(async () => {
+        requestController.current?.abort();
+        const controller = new AbortController();
+        requestController.current = controller;
         setLoading(true);
         setError(null);
 
         try {
-            const response = await fetch('/api/message');
+            const response = await fetch('/api/message', {signal: controller.signal});
             const data: unknown = await response.json();
 
             if (!response.ok) {
@@ -28,9 +32,14 @@ export default function Home() {
 
             setMessage(data.message);
         } catch (err) {
+            if (err instanceof Error && err.name === 'AbortError') {
+                return;
+            }
             setError(err instanceof Error ? err.message : '予期しないエラーが発生しました');
         } finally {
-            setLoading(false);
+            if (!controller.signal.aborted) {
+                setLoading(false);
+            }
         }
     }, []);
 
@@ -38,6 +47,9 @@ export default function Home() {
         // 初回表示時にAPIを取得し、取得完了後に表示状態を更新する。
         // eslint-disable-next-line react-hooks/set-state-in-effect
         void fetchMessage();
+        return () => {
+            requestController.current?.abort();
+        };
     }, [fetchMessage]);
 
     let content;

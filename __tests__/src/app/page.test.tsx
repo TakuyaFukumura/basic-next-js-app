@@ -50,4 +50,21 @@ describe('Home', () => {
 
         expect(await screen.findByText('エラー: APIレスポンスの形式が不正です')).toBeInTheDocument();
     });
+
+    it('アンマウント時に進行中のリクエストを中断する', async () => {
+        let requestSignal: AbortSignal | null | undefined;
+        const pendingRequest = new Promise<Response>(() => {
+            // リクエストが中断されるまで保留する。
+        });
+        jest.spyOn(global, 'fetch').mockImplementation((_input, init) => {
+            requestSignal = init?.signal;
+            return pendingRequest;
+        });
+
+        const {unmount} = render(<Home/>, {reactStrictMode: false});
+        await screen.findByText('読み込み中...');
+        unmount();
+
+        expect(requestSignal?.aborted).toBe(true);
+    });
 });
