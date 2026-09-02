@@ -5,6 +5,13 @@
 フォーマットは [Keep a Changelog](https://keepachangelog.com/ja/1.0.0/) に基づいており、
 このプロジェクトは [Semantic Versioning](https://semver.org/lang/ja/) に従っています。
 
+## [0.3.5] - 2026-09-02
+
+### 変更
+
+- APIレスポンスの成功・エラー形式を型と実行時検証で統一し、失敗時の再試行操作を追加
+- 改善計画から対応済みの項目を削除し、残りの課題を整理
+
 ## [Unreleased]
 
 ## [0.3.4] - 2026-09-02
